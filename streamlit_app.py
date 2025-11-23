@@ -65,7 +65,7 @@ st.markdown("""
         top: 0;
         left: 0;
         right: 0;
-        z-index: 999;
+        z-index: 1001;
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(250, 248, 243, 0.98) 100%);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
@@ -792,7 +792,7 @@ def main():
         """, unsafe_allow_html=True)
     
     # Evaluation Framework - Collapsible
-    with st.expander("⚙ Evaluation Framework & Methodology", expanded=False):
+    with st.expander("Evaluation Framework & Methodology", expanded=False):
         st.markdown("""
         <div style='background: linear-gradient(135deg, rgba(218, 165, 32, 0.05) 0%, rgba(218, 165, 32, 0.02) 100%); 
                     padding: 1rem; border-radius: 8px; border-left: 3px solid rgba(218, 165, 32, 0.4);'>
@@ -1020,3 +1020,4 @@ def main():
 if __name__ == "__main__":
 
     main()
+
