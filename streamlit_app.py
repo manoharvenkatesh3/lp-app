@@ -742,7 +742,7 @@ def create_radar_chart(parameter_data: List[Dict[str, Any]], program_name: str) 
             ),
             showlegend=False,
             title=dict(
-                text=f'**{program_name}** Performance Breakdown (Score 1-5)',
+                text=f'{program_name} Performance Breakdown (Score 1-5)',
                 font=dict(family='Bricolage Grotesque', size=16, color='#2d3748')
             ),
             # Transparent background to blend with glassmorphism
@@ -1020,4 +1020,5 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
