@@ -1013,9 +1013,10 @@ def main():
     # Footer
     st.markdown("""
     <div class="footer">
-        <p>© 2025 Petron Analytics | Powered by Advanced AI Technology</p>
+        <p>Powered by AI • Built with Streamlit • Designed with ❤️</p>
     </div>
     """, unsafe_allow_html=True)
 
 if __name__ == "__main__":
+
     main()
