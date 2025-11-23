@@ -925,7 +925,7 @@ def main():
                 
                 # --- START NEW RADAR CHART INTEGRATION ---
                 st.markdown(f'''
-                <div class="glass-card" style="padding: 2rem 1.5rem; margin-top: 0;">
+                <div class="glass-card" style="padding: 1rem 0.5rem; margin-top: 0;">
                     <h3 style="color: #2d3748; text-align: center; margin-top: 0; margin-bottom: 0.5rem;">
                         <span class="material-symbols-outlined" style="vertical-align: middle; font-size: 1.6rem; margin-right: 0.4rem;">radar</span>Strategic Performance Radar
                     </h3>
@@ -1020,5 +1020,6 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
