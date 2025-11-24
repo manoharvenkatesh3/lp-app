@@ -572,29 +572,45 @@ def tab_monitoring_results():
         )
 
 
+def render_sticky_tabs():
+    """Render fixed/sticky tabs that don't scroll with content."""
+    tab_options = [
+        ("📥 Load Candidates", "load_candidates"),
+        ("👥 View Candidates", "view_candidates"),
+        ("🎯 Screen & Rank", "screen_and_rank"),
+        ("📈 Monitoring Results", "monitoring_results"),
+    ]
+
+    if "current_tab" not in st.session_state:
+        st.session_state["current_tab"] = "load_candidates"
+
+    col_tabs = st.columns(len(tab_options), gap="small")
+    for idx, (label, tab_key) in enumerate(tab_options):
+        with col_tabs[idx]:
+            if st.button(
+                label,
+                key=f"tab_{tab_key}",
+                use_container_width=True,
+                type="primary" if st.session_state["current_tab"] == tab_key else "secondary",
+            ):
+                st.session_state["current_tab"] = tab_key
+                st.rerun()
+
+    st.markdown("---")
+
+    if st.session_state["current_tab"] == "load_candidates":
+        tab_load_candidates()
+    elif st.session_state["current_tab"] == "view_candidates":
+        tab_view_candidates()
+    elif st.session_state["current_tab"] == "screen_and_rank":
+        tab_screen_and_rank()
+    elif st.session_state["current_tab"] == "monitoring_results":
+        tab_monitoring_results()
+
+
 def main():
     initialize_session_state()
-
-    tab1, tab2, tab3, tab4 = st.tabs(
-        [
-            "📥 Load Candidates",
-            "👥 View Candidates",
-            "🎯 Screen & Rank",
-            "📈 Monitoring Results",
-        ]
-    )
-
-    with tab1:
-        tab_load_candidates()
-
-    with tab2:
-        tab_view_candidates()
-
-    with tab3:
-        tab_screen_and_rank()
-
-    with tab4:
-        tab_monitoring_results()
+    render_sticky_tabs()
 
 
 if __name__ == "__main__":
