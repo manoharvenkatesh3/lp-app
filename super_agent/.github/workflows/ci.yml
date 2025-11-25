@@ -1,0 +1,99 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - "super_agent/**"
+  pull_request:
+    paths:
+      - "super_agent/**"
+
+jobs:
+  lint-backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: super_agent/backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install ruff black
+      - name: Lint with Ruff
+        run: ruff check app/
+      - name: Format check with Black
+        run: black --check app/
+
+  test-backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: super_agent/backend
+    services:
+      postgres:
+        image: ankane/pgvector:latest
+        env:
+          POSTGRES_USER: superagent
+          POSTGRES_PASSWORD: superagent
+          POSTGRES_DB: superagent
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run migrations
+        env:
+          APP_DATABASE_URL: postgresql+psycopg2://superagent:superagent@localhost:5432/superagent
+        run: alembic upgrade head
+      - name: Run tests
+        env:
+          APP_DATABASE_URL: postgresql+psycopg2://superagent:superagent@localhost:5432/superagent
+        run: pytest tests/ -v --cov=app --cov-report=xml
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./super_agent/backend/coverage.xml
+
+  lint-frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: super_agent/frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install dependencies
+        run: npm install
+      - name: Lint
+        run: npm run lint
+
+  build-frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: super_agent/frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install dependencies
+        run: npm install
+      - name: Build
+        run: npm run build

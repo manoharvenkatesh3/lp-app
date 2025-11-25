@@ -57,3 +57,10 @@ Thumbs.db
 # Jupyter
 .ipynb_checkpoints/
 *.ipynb
+
+# Super Agent
+super_agent/frontend/node_modules/
+super_agent/frontend/dist/
+super_agent/backend/.pytest_cache/
+super_agent/backend/.coverage
+super_agent/backend/htmlcov/
